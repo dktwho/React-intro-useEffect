@@ -1,25 +1,31 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+const [todo, setTodo] = useState(null)
+useEffect(() => {
+  console.log('callback in useEffect called')
+  fetch('https://jsonplaceholder.typicode.com/todos/2')
+      .then(response => response.json())
+      .then(json => setTodo(json))
+}, [])
+
+ console.log('app render')
+ console.log(todo)
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     {todo && 
+     <>
+      <h1>{todo.id}</h1>
+      <h2>{todo.title} - {todo.completed}</h2>
+     </>
+     }
     </div>
   );
 }
 
 export default App;
+
+
